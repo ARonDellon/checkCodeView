@@ -34,9 +34,7 @@ alpha:1.0]
                                   unSelectedColor:UIColorFromRGB(0xcccccc)];
     codeView.delegate = self;
     codeView.keyboardType = UIKeyboardTypeNumberPad;
-
     codeView.center = self.view.center;
-//    codeView.backgroundColor = [UIColor redColor];
     [self.view addSubview:codeView];
 }
 
