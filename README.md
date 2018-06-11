@@ -13,3 +13,4 @@
     codeView.center = self.view.center;
     [self.view addSubview:codeView];
     
+![cmd-markdown-logo](https://github.com/ARonDellon/checkCodeView/blob/master/3.gif)
