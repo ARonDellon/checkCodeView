@@ -24,18 +24,21 @@ alpha:1.0]
     [super viewDidLoad];
     //UIColorFromRGB(0xcccccc)
     //UIColorFromRGB(0xff8903)
+    UITapGestureRecognizer *tap = [UITapGestureRecognizer new];
+    [tap addTarget:self action:@selector(hide)];
+    [self.view addGestureRecognizer:tap];
 
-    SSCheckCodeView * codeView = [[SSCheckCodeView alloc]
-                                  initWithSingleLabelFrame:CGRectMake(0, 0,
-                                                                      30, 35)
-                                  space:5
-                                  numOfCode:8
-                                  selectedColor:UIColorFromRGB(0xff8903)
-                                  unSelectedColor:UIColorFromRGB(0xcccccc)];
+    SSChekCodeConfig *config = [SSChekCodeConfig new];
+    SSCheckCodeView * codeView = [[SSCheckCodeView alloc] initWithConfig:config];
     codeView.delegate = self;
     codeView.keyboardType = UIKeyboardTypeNumberPad;
     codeView.center = self.view.center;
     [self.view addSubview:codeView];
+}
+
+- (void)hide
+{
+    [self.view endEditing:YES];
 }
 
 - (void)checkCodeView:(SSCheckCodeView *)view textFinished:(NSString *)contentText {

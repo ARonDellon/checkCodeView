@@ -25,6 +25,7 @@
 		823E9DF520CE102A00DFC62F /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 823E9DEA20CE102A00DFC62F /* MASViewConstraint.m */; };
 		823E9DF620CE102A00DFC62F /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 823E9DEB20CE102A00DFC62F /* MASViewAttribute.m */; };
 		823E9DF920CE11DA00DFC62F /* UIView+border.m in Sources */ = {isa = PBXBuildFile; fileRef = 823E9DF820CE11DA00DFC62F /* UIView+border.m */; };
+		82CB2730211048C400A123EA /* SSChekCodeConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CB272F211048C400A123EA /* SSChekCodeConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,8 @@
 		823E9DEB20CE102A00DFC62F /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
 		823E9DF720CE11DA00DFC62F /* UIView+border.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+border.h"; sourceTree = "<group>"; };
 		823E9DF820CE11DA00DFC62F /* UIView+border.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+border.m"; sourceTree = "<group>"; };
+		82CB272E211048C400A123EA /* SSChekCodeConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSChekCodeConfig.h; sourceTree = "<group>"; };
+		82CB272F211048C400A123EA /* SSChekCodeConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSChekCodeConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +105,8 @@
 				823E9DD220CE102A00DFC62F /* Masonry */,
 				823E9DD020CE102A00DFC62F /* SSCheckCodeView.h */,
 				823E9DD120CE102A00DFC62F /* SSCheckCodeView.m */,
+				82CB272E211048C400A123EA /* SSChekCodeConfig.h */,
+				82CB272F211048C400A123EA /* SSChekCodeConfig.m */,
 				823E9DF720CE11DA00DFC62F /* UIView+border.h */,
 				823E9DF820CE11DA00DFC62F /* UIView+border.m */,
 				823E9DBA20CE0FB100DFC62F /* AppDelegate.h */,
@@ -234,6 +239,7 @@
 				823E9DED20CE102A00DFC62F /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				823E9DF120CE102A00DFC62F /* MASLayoutConstraint.m in Sources */,
 				823E9DBC20CE0FB100DFC62F /* AppDelegate.m in Sources */,
+				82CB2730211048C400A123EA /* SSChekCodeConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

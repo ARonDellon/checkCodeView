@@ -12,17 +12,18 @@
 
 
 
-
 @interface SSCheckCodeView()
 
 @property(nonatomic,copy)NSMutableString *content;
 @property(nonatomic,strong)NSMutableArray<singleLabel *> *inputViewStoreArr;
 @property(nonatomic,strong)NSMutableArray<NSString *> *inputStringStoreArr;
 
-@property(nonatomic,strong)UIColor *selectedColor;
-@property(nonatomic,strong)UIColor *unSelectedColor;
-@property(nonatomic,assign)CGRect singleFrame;
-@property(nonatomic,assign)CGFloat space;
+@property(nonatomic,strong)SSChekCodeConfig *config;
+
+//@property(nonatomic,strong)UIColor *selectedColor;
+//@property(nonatomic,strong)UIColor *unSelectedColor;
+//@property(nonatomic,assign)CGRect singleFrame;
+//@property(nonatomic,assign)CGFloat space;
 
 @end
 
@@ -33,20 +34,13 @@
     NSUInteger _selectedIndex;
 }
 
-- (instancetype)initWithSingleLabelFrame:(CGRect)frame
-                                   space:(CGFloat)space
-                               numOfCode:(NSUInteger)number
-                           selectedColor:(UIColor *)selectedColor
-                         unSelectedColor:(UIColor *)unSelectedColor
+- (instancetype)initWithConfig:(SSChekCodeConfig *)config
 {
     if (self = [super initWithFrame:CGRectMake(0, 0,
-                                               (frame.size.width + space) * number - space,
-                                               frame.size.height)]) {
-        self.singleFrame = frame;
-        self.space = space;
-        self.selectedColor = selectedColor;
-        self.unSelectedColor = unSelectedColor;
-        [self commonInit:number];
+                                               (config.frame.size.width + config.space) * config.inputCount - config.space,
+                                               config.frame.size.height)]) {
+        self.config = config;
+        [self commonInit:config.inputCount];
     }
     return self;
 }
@@ -78,7 +72,7 @@
             return;
         }
 
-        if (_fillIndex == 3 && _selectedIndex == 3 && dataArrCount == viewArrCount) {//满格呼出键盘
+        if (_fillIndex == viewArrCount-1 && _selectedIndex == viewArrCount-1 && dataArrCount == viewArrCount) {//满格呼出键盘
             [self rerefreshUI];
             return;
         }
@@ -188,8 +182,11 @@
 - (void)setupUI:(NSUInteger)count
 {
     for (int i = 0 ; i < count ; i ++) {
-        singleLabel *label = [[singleLabel alloc] initWithselectedColor:self.selectedColor
-                                                        unSelectedColor:self.unSelectedColor];
+        singleLabel *label = [[singleLabel alloc] initWithselectedColor:self.config.borderSelectedColor
+                                                        unSelectedColor:self.config.borderColor
+                                                           cornerRadius:self.config.cornerRadius
+                                                               isSecret:self.config.isSecret
+                                                           isShowCursor:self.config.isShowCursor];
         [self.inputViewStoreArr addObject:label];
         [self addSubview:label];
     }
@@ -205,9 +202,9 @@
         singleLabel *label = self.inputViewStoreArr[i];
         SNWeakSelf(self);
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(weakself.singleFrame.size.width);
-            make.height.mas_equalTo(weakself.singleFrame.size.height);
-            make.left.equalTo(weakself).offset(i * (weakself.singleFrame.size.width + weakself.space));
+            make.width.mas_equalTo(weakself.config.frame.size.width);
+            make.height.mas_equalTo(weakself.config.frame.size.height);
+            make.left.equalTo(weakself).offset(i * (weakself.config.frame.size.width + weakself.config.space));
             make.top.equalTo(weakself);
         }];
     }
@@ -230,6 +227,9 @@
 
 @property(nonatomic,strong)UIColor *selectedColor;
 @property(nonatomic,strong)UIColor *unSelectedColor;
+@property(nonatomic,assign)CGFloat cornerRadius;
+@property(nonatomic,assign)BOOL isSecret;
+@property(nonatomic,assign)BOOL isShowCursor;
 
 @end
 
@@ -239,14 +239,22 @@
 
 - (instancetype)initWithselectedColor:(UIColor *)selectedColor
                       unSelectedColor:(UIColor *)unSelectedColor
+                         cornerRadius:(CGFloat)cornerRadius
+                             isSecret:(BOOL)isSecret
+                         isShowCursor:(BOOL)isShowCursor
 {
     if (self = [super initWithFrame:CGRectZero]) {
+        self.userInteractionEnabled = NO;
         self.font = [UIFont systemFontOfSize:18];
         self.textAlignment = NSTextAlignmentCenter;
         self.backgroundColor = [UIColor whiteColor];
         self.textColor = self.selectedColor;
+        self.secureTextEntry = isSecret;
         self.selectedColor = selectedColor;
         self.unSelectedColor = unSelectedColor;
+        self.cornerRadius = cornerRadius;
+        self.isSecret = isSecret;
+        self.isShowCursor = isShowCursor;
         [self setupUI];
         [self.cursorView setHidden:YES];
     }
@@ -278,6 +286,7 @@
 
 - (void)startFlashing
 {
+    if(!self.isShowCursor) return;
     if (_timer == nil) {
         _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(0, 0));
         dispatch_source_set_timer(_timer, DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC, 0 * NSEC_PER_SEC);
@@ -300,7 +309,7 @@
 - (void)setupUI
 {
     [self BorderColor:self.unSelectedColor width:0.5f];
-    self.layer.cornerRadius = 2;
+    self.layer.cornerRadius = self.cornerRadius;
     self.layer.masksToBounds = YES;
     self.cursorView = [[UIView alloc] init];
     self.cursorView.backgroundColor = self.selectedColor;
@@ -322,7 +331,10 @@
 
 - (void)dealloc
 {
-    dispatch_cancel(_timer);
+    if (_timer) {
+        dispatch_cancel(_timer);
+        _timer = nil;
+    }
 }
 
 @end

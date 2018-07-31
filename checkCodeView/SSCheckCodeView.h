@@ -21,6 +21,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Masonry.h"
+#import "SSChekCodeConfig.h"
+
 
 #define SNWeakSelf(type)  __weak typeof(type) weak##type = type;
 
@@ -46,11 +48,7 @@
 
 @property(nonatomic,weak)id<SSCheckCodeViewDelegate> delegate;
 
-- (instancetype)initWithSingleLabelFrame:(CGRect)frame
-                                   space:(CGFloat)space
-                               numOfCode:(NSUInteger)number
-                           selectedColor:(UIColor *)selectedColor
-                         unSelectedColor:(UIColor *)unSelectedColor;
+- (instancetype)initWithConfig:(SSChekCodeConfig *)config;
 - (void)clear;
 
 @end
@@ -58,10 +56,13 @@
 
 
 
-@interface singleLabel: UILabel
+@interface singleLabel: UITextField
 
 - (instancetype)initWithselectedColor:(UIColor *)selectedColor
-                      unSelectedColor:(UIColor *)unSelectedColor;
+                      unSelectedColor:(UIColor *)unSelectedColor
+                         cornerRadius:(CGFloat)cornerRadius
+                             isSecret:(BOOL)isSecret
+                         isShowCursor:(BOOL)isShowCursor;
 - (void)resignResponder;
 - (void)registResponder;
 
